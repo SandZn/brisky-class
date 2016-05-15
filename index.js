@@ -11,7 +11,7 @@ exports.properties = {
       },
       state (target, state, type, stamp, subs, tree, id, pid) {
         setClassName(
-          key(target, pid),
+          key(target, id),
           target.storeState(state, type, stamp, subs, tree, pid + 'class', pid),
           target,
           getParent(type, stamp, subs, tree, pid)
