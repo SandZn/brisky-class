@@ -3,7 +3,6 @@ require('brisky-core').prototype.inject(require('../'))
 
 const test = require('tape')
 const render = require('brisky-core/render')
-const s = require('vigour-state')
 
 test('static class name', function (t) {
   var elem
