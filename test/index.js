@@ -134,5 +134,4 @@ test('keys default class name', function (t) {
 
   t.equals(elem.childNodes[0].className, 'elem1 simple-class', 'context 1 correct key')
   t.equals(elem.childNodes[1].className, 'elem2 simple-class', 'context 2 correct key')
-
 })
