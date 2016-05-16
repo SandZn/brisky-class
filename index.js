@@ -10,7 +10,6 @@ exports.properties = {
         setClassName(target.cParent().key, target.storeStatic(pnode), target, pnode)
       },
       state (target, state, type, stamp, subs, tree, id, pid) {
-        console.log('??')
         setClassName(
           key(target, id),
           target.storeState(state, type, stamp, subs, tree, pid + 'class', pid),
@@ -24,7 +23,6 @@ exports.properties = {
         collect (val, store, id) {
           const _ = store._ || (store._ = {})
           const index = _[id] || (_[id] = store.length + 1)
-          console.log('-->', val ? typeof val === 'string' ? val : this.key : '')
           store[index] = val ? typeof val === 'string' ? val : this.key : ''
         }
       },
