@@ -52,7 +52,7 @@ test('static class name', function (t) {
 
 test('state driven class name', function (t) {
   var elem
-  t.plan(3)
+  t.plan(4)
 
   elem = render({
     class: {
@@ -101,6 +101,16 @@ test('state driven class name', function (t) {
   })
 
   t.equals(elem.className, 'simple-value another-class simple-class simple-field', 'mixed static with multiple state')
+
+  elem = render({
+    $: 'simpleClass',
+    class: { $: true }
+
+  }, {
+    simpleClass: 'simple-class'
+  })
+
+  t.equals(elem.className, 'simple-class', 'subscribe with true')
 })
 
 test('keys default class name', function (t) {
