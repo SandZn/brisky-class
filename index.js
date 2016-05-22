@@ -6,8 +6,8 @@ exports.properties = {
     type: 'group',
     storeContextKey: true,
     render: {
-      static (target, pnode) {
-        setClassName(target.cParent().key, target.storeStatic(pnode), target, pnode)
+      static (target, node) {
+        setClassName(target.cParent().key, target.storeStatic(node), target, node)
       },
       state (target, state, type, stamp, subs, tree, id, pid) {
         setClassName(
@@ -27,7 +27,7 @@ exports.properties = {
         }
       },
       render: {
-        static (target, pnode, store) {
+        static (target, node, store) {
           target.collect(target.compute(), store, target.uid())
         },
         state (target, state, type, stamp, subs, tree, id, pid) {
@@ -38,13 +38,13 @@ exports.properties = {
   }
 }
 
-function setClassName (key, val, target, pnode) {
+function setClassName (key, val, target, node) {
   if (val) {
-    pnode.className = key && (key !== val && isNaN(key)) ? key + ' ' + val : val
+    node.className = key && (key !== val && isNaN(key)) ? key + ' ' + val : val
   } else if (key && isNaN(key)) {
-    pnode.className = key
-  } else if (pnode.className) {
-    pnode.removeAttribute('class')
+    node.className = key
+  } else if (node.className) {
+    node.removeAttribute('class')
   }
 }
 
