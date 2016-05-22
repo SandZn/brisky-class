@@ -129,7 +129,7 @@ test('keys default class name', function (t) {
   t.equals(elem.className, 'elem simple-class', 'class includes key')
 
   elem = render({
-    components: {
+    types: {
       elem: {
         class: {
           $: 'simpleClass'
