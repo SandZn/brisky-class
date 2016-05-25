@@ -1,6 +1,6 @@
 {
   "name": "brisky-class",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Adds class property to Brisky",
   "main": "index.js",
   "scripts": {
