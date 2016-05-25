@@ -40,8 +40,8 @@ exports.properties = {
 
 function setClassName (key, val, target, node) {
   if (val) {
-    node.className = key ? key + ' ' + val : val
-  } else if (key) {
+    node.className = key && (key !== val && isNaN(key)) ? key + ' ' + val : val
+  } else if (key && isNaN(key)) {
     node.className = key
   } else if (node.className) {
     node.removeAttribute('class')
@@ -55,8 +55,9 @@ function key (target, pid) {
         return pid.slice(1, i)
       }
     }
+  } else {
+    return target.cParent().key
   }
-  return target.cParent().key
 }
 
 exports.class = ''
