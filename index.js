@@ -18,7 +18,7 @@ exports.properties = {
         )
       }
     },
-    Child: {
+    child: {
       define: {
         collect (val, store, id) {
           const _ = store._ || (store._ = {})
