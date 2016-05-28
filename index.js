@@ -7,13 +7,19 @@ exports.properties = {
     storeContextKey: true,
     render: {
       static (target, node) {
-        setClassName(target.cParent().key, target.storeStatic(node), target, node)
+        var val = target.compute()
+        if (val === true) {
+          val = target.cParent().key
+        }
+        setClassName(target.storeStatic(val, node), node)
       },
       state (target, state, type, stamp, subs, tree, id, pid) {
+        var val = state && target.$ ? target.compute(state) : target.compute()
+        if (val === true) {
+          val = key(target, id)
+        }
         setClassName(
-          key(target, id),
-          target.storeState(state, type, stamp, subs, tree, pid + 'class', pid),
-          target,
+          target.storeState(val, state, type, stamp, subs, tree, pid + 'class', pid),
           getParent(type, stamp, subs, tree, pid)
         )
       }
@@ -38,11 +44,9 @@ exports.properties = {
   }
 }
 
-function setClassName (key, val, target, node) {
+function setClassName (val, node) {
   if (val) {
-    node.className = key && (key !== val && isNaN(key)) ? key + ' ' + val : val
-  } else if (key && isNaN(key)) {
-    node.className = key
+    node.className = val
   } else if (node.className) {
     node.removeAttribute('class')
   }
@@ -59,5 +63,3 @@ function key (target, pid) {
     return target.cParent().key
   }
 }
-
-exports.class = ''

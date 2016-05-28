@@ -113,11 +113,8 @@ test('state driven class name', function (t) {
   t.equals(elem.className, 'simple-class', 'subscribe with true')
 })
 
-test('keys default class name', function (t) {
-  var elem
-  t.plan(3)
-
-  elem = render({
+test('keys as class name', function (t) {
+  var elem = render({
     key: 'elem',
     class: {
       $: 'simpleClass'
@@ -126,13 +123,23 @@ test('keys default class name', function (t) {
     simpleClass: 'simple-class'
   })
 
-  t.equals(elem.className, 'elem simple-class', 'class includes key')
+  t.equals(elem.className, 'simple-class', 'class does not include key by default')
+
+  elem = render({
+    key: 'elem',
+    class: true
+  })
+
+  t.equals(elem.className, 'elem', 'class does include key when class: true')
 
   elem = render({
     types: {
       elem: {
         class: {
-          $: 'simpleClass'
+          val: true,
+          thing: {
+            $: 'simpleClass'
+          }
         }
       }
     },
@@ -144,4 +151,6 @@ test('keys default class name', function (t) {
 
   t.equals(elem.childNodes[0].className, 'elem1 simple-class', 'context 1 correct key')
   t.equals(elem.childNodes[1].className, 'elem2 simple-class', 'context 2 correct key')
+
+  t.end()
 })
