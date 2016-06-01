@@ -8,14 +8,14 @@ exports.properties = {
     render: {
       static (target, node) {
         var val = target.compute()
-        if (val === true) {
+        if (val === true || target.useKey) {
           val = target.cParent().key
         }
         setClassName(target.storeStatic(val, node), node)
       },
       state (target, state, type, stamp, subs, tree, id, pid) {
         var val = state && target.$ ? target.compute(state) : target.compute()
-        if (val === true) {
+        if (val === true || target.useKey) {
           val = key(target, id)
         }
         setClassName(
