@@ -7,9 +7,9 @@ exports.properties = {
     storeContextKey: true,
     render: {
       static (target, node) {
-        var val = target.compute()
-        if (val === true) {
-          val = target.cParent().key
+        if (!target.$) {
+          var val = target.compute()
+          if (val === true) { val = target.cParent().key }
         }
         setClassName(target.storeStatic(val, node), node)
       },
