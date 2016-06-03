@@ -4,7 +4,6 @@
   "description": "Adds class property to Brisky",
   "main": "index.js",
   "scripts": {
-    "start": "watchify-server test/index.js",
     "test": "node test | tap-difflet && standard",
     "watch": "nodemon test | tap-difflet",
     "cover": "istanbul cover --report none --print detail test/index.js",
@@ -49,6 +48,7 @@
     "Youri Daamen <youri@vigour.io>"
   ],
   "devDependencies": {
+    "budo": "^8.2.2",
     "coveralls": "^2.11.9",
     "istanbul": "^0.4.3",
     "nodemon": "^1.9.1",
@@ -57,6 +57,7 @@
     "tap-difflet": "0.4.0",
     "tape": "^4.4.0",
     "vigour-doc": "^1.1.5",
-    "watchify-server": "^1.0.2"
+    "parse-element": "^2.0.1",
+    "vigour-util": "^3.0.0"
   }
 }
