@@ -13,7 +13,8 @@ exports.properties = {
         if (!target.$) {
           var val = target.compute()
           if (val === true || target.useKey) {
-            val = typeof val === 'string' ? val + ' ' + target.cParent().key : target.cParent().key
+            const key = target.cParent().key
+            val = typeof val === 'string' ? (val + ' ' + key) : key
           }
         }
         setClassName(target.storeStatic(val, node), node)
@@ -21,7 +22,8 @@ exports.properties = {
       state (target, state, type, stamp, subs, tree, id, pid) {
         var val = state && target.$ ? target.compute(state) : target.compute()
         if (val === true || target.useKey) {
-          val = typeof val === 'string' ? val + ' ' + key(target, id) : key(target, id)
+          const key = parseKey(target, id)
+          val = typeof val === 'string' ? (val + ' ' + key) : key
         }
         setClassName(
           target.storeState(val, state, type, stamp, subs, tree, pid + 'class', pid),
@@ -58,7 +60,7 @@ function setClassName (val, node) {
   }
 }
 
-function key (target, pid) {
+function parseKey (target, pid) {
   if (pid[0] === 'c') {
     for (let i = pid.length - 1; i >= 0; i--) {
       if (pid[i] === '-') {
@@ -66,8 +68,6 @@ function key (target, pid) {
       }
     }
   } else {
-    // never here?
-    console.log('hello')
     return target.cParent().key
   }
 }
