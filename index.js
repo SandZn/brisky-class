@@ -5,12 +5,15 @@ exports.properties = {
   class: {
     type: 'group',
     storeContextKey: true,
+    properties: {
+      useKey: true
+    },
     render: {
       static (target, node) {
         if (!target.$) {
           var val = target.compute()
           if (val === true || target.useKey) {
-            val = target.cParent().key
+            val = typeof val === 'string' ? val + ' ' + target.cParent().key : target.cParent().key
           }
         }
         setClassName(target.storeStatic(val, node), node)
@@ -18,7 +21,7 @@ exports.properties = {
       state (target, state, type, stamp, subs, tree, id, pid) {
         var val = state && target.$ ? target.compute(state) : target.compute()
         if (val === true || target.useKey) {
-          val = key(target, id)
+          val = typeof val === 'string' ? val + ' ' + key(target, id) : key(target, id)
         }
         setClassName(
           target.storeState(val, state, type, stamp, subs, tree, pid + 'class', pid),
