@@ -8,9 +8,10 @@ require('brisky-core').prototype.inject(require('../'))
 test('context - static class name', function (t) {
   const types = {
     steps: {
-      one: { text: '1' },
-      two: { text: '2' },
-      three: { text: '3' }
+      class: true,
+      one: { text: 1 },
+      two: { text: 2 },
+      three: { text: 3 }
     }
   }
 
@@ -34,19 +35,20 @@ test('context - static class name', function (t) {
     page2
   })
 
-  console.log(parse(app))
   t.same(
     parse(app),
     strip(`
       <div>
         <div>
-          <div><div class="active">1</div>
-          <div>2</div>
-          <div>3</div>
+          <div class="steps">
+            <div class="active">1</div>
+            <div>2</div>
+            <div>3</div>
+          </div>
         </div>
-        </div>
-          <div>
-          <div><div>1</div>
+        <div>
+          <div class="steps">
+          <div>1</div>
           <div class="active">2</div>
           <div>3</div>
           </div>
