@@ -3,9 +3,13 @@ const test = require('tape')
 const render = require('brisky-core/render')
 const parse = require('parse-element')
 const strip = require('vigour-util/strip/formatting')
+const s = require('vigour-state/s')
+
 require('brisky-core').prototype.inject(require('../'))
 
 test('context - static class name', function (t) {
+  const state = s({})
+
   const types = {
     steps: {
       class: true,
@@ -23,16 +27,17 @@ test('context - static class name', function (t) {
   }
 
   const page2 = {
+    $: 'page2',
     steps: {
       type: 'steps',
       two: { class: 'active' }
     }
   }
 
-  const app = render({
-    types,
-    page1,
-    page2
+  const app = render({ types, page1, page2 }, state)
+
+  state.set({
+    page2: true
   })
 
   t.same(
