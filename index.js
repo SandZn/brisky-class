@@ -9,46 +9,46 @@ exports.properties = {
       useKey: true
     },
     render: {
-      static (target, node) {
-        if (!target.$) {
-          var val = target.compute()
-          if (val === true || target.useKey) {
-            const key = target.cParent().key
-            val = typeof val === 'string' ? (val + ' ' + key) : key
-          }
+      static (target, node, store) {
+        var val = target.compute()
+        if (val === true || target.useKey) {
+          const key = target.cParent().key
+          val = typeof val === 'string' ? (val + ' ' + key) : key
+        } else if (typeof val === 'object') {
+          val = ''
         }
-        setClassName(target.storeStatic(val, node), node)
+        setClassName(parseStore(val, store), node)
       },
-      state (target, state, type, stamp, subs, tree, id, pid) {
+      state (target, state, type, stamp, subs, tree, id, pid, store) {
         var val = state && target.$ ? target.compute(state) : target.compute()
         if (val === true || target.useKey) {
           const key = parseKey(target, id)
           val = typeof val === 'string' ? (val + ' ' + key) : key
+        } else if (typeof val === 'object') {
+          val = ''
         }
-        setClassName(
-          target.storeState(val, state, type, stamp, subs, tree, pid + 'class', pid),
-          getParent(type, stamp, subs, tree, pid)
-        )
-      }
-    },
-    child: {
-      define: {
-        collect (val, store, id) {
-          const _ = store._ || (store._ = {})
-          const index = _[id] || (_[id] = store.length + 1)
-          store[index] = val ? typeof val === 'string' ? val : this.key : ''
-        }
-      },
-      render: {
-        static (target, node, store) {
-          target.collect(target.compute(), store, target.uid())
-        },
-        state (target, state, type, stamp, subs, tree, id, pid) {
-          target.collect(target.compute(state), target.getStore(tree, pid + 'class'), id)
-        }
+        const node = getParent(type, stamp, subs, tree, pid)
+        setClassName(parseStore(val, store), node)
       }
     }
   }
+}
+
+function parseStore (val, store) {
+  for (let key in store) {
+    let fieldval = store[key]
+    if (fieldval === true) {
+      fieldval = key
+    }
+    if (fieldval !== false) {
+      if (val) {
+        val += ' ' + fieldval
+      } else {
+        val = fieldval
+      }
+    }
+  }
+  return val
 }
 
 function setClassName (val, node) {

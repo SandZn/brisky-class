@@ -100,7 +100,7 @@ test('basic - state driven class name', function (t) {
     }
   })
 
-  t.equals(elem.className, 'simple-value another-class simple-class simple-field', 'mixed static with multiple state')
+  t.equals(elem.className, 'simple-value simple-field another-class simple-class', 'mixed static with multiple state')
 
   elem = render({
     $: 'simpleClass',
