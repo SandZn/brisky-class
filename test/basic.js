@@ -1,6 +1,6 @@
 'use strict'
 require('brisky-core').prototype.inject(require('../'))
-
+const s = require('vigour-state/s')
 const test = require('tape')
 const render = require('brisky-core/render')
 
@@ -128,5 +128,29 @@ test('basic - keys as class name', function (t) {
     class: true
   })
   t.equals(elem.className, 'elem', 'class does include key when class: true')
+  t.end()
+})
+
+test('basic - toggle class name', function (t) {
+  const state = s({ thing: true })
+  const elem = render({
+    key: 'elem',
+    class: { hello: { $: 'thing' } }
+  }, state)
+  t.equals(elem.className, 'hello', 'initial class')
+  state.thing.set(false)
+  t.equals(elem.className, void 0, 'set thing to false')
+  t.end()
+})
+
+test('basic - use key and nested state', function (t) {
+  const state = s({ thing: true })
+  const elem = render({
+    key: 'elem',
+    class: { useKey: true, hello: { $: 'thing' } }
+  }, state)
+  t.equals(elem.className, 'elem hello', 'initial class')
+  state.thing.set(false)
+  t.equals(elem.className, 'elem', 'set thing to false')
   t.end()
 })

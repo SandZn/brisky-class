@@ -55,7 +55,6 @@ function setClassName (val, node) {
   if (val) {
     node.className = val
   } else if (node.className) {
-    // make a test for this!
     node.removeAttribute('class')
   }
 }
