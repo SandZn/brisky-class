@@ -10,9 +10,11 @@
 **basic**
 ```javascript
   const render = require('brisky/render')
+
   const app = render({
     class: 'app' // → add class 'app'
-  }, state)
+  })
+
   document.body.appendChild(app)
 ```
 
