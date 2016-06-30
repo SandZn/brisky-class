@@ -66,7 +66,7 @@ test('context - static class name', function (t) {
   t.end()
 })
 
-test('basic - keys as class name', function (t) {
+test('context - keys as class name', function (t) {
   const elem = render({
     types: {
       elem: {
@@ -85,5 +85,34 @@ test('basic - keys as class name', function (t) {
   })
   t.equals(elem.childNodes[0].className, 'elem1 simple-class', 'context 1 correct key')
   t.equals(elem.childNodes[1].className, 'elem2 simple-class', 'context 2 correct key')
+  t.end()
+})
+
+test('context - remove field on inherited class', function (t) {
+  const state = s({})
+
+  const elem = render({
+    types: {
+      elem: {
+        class: {
+          hello: true,
+          thing: {
+            $: 'simpleClass'
+          }
+        }
+      }
+    },
+    elem1: { type: 'elem' },
+    elem2: { type: 'elem' }
+  }, state)
+
+  t.equals(elem.childNodes[0].className, 'hello', '1 initial')
+  t.equals(elem.childNodes[1].className, 'hello', '2 initial')
+  state.set({ simpleClass: true })
+  t.equals(elem.childNodes[0].className, 'hello thing', '1 after state "true"')
+  t.equals(elem.childNodes[1].className, 'hello thing', '2 after state "true"')
+  state.simpleClass.remove()
+  t.equals(elem.childNodes[0].className, 'hello', '1 after removal of state')
+  t.equals(elem.childNodes[1].className, 'hello', '2 after removal of state')
   t.end()
 })
