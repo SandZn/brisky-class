@@ -32,12 +32,12 @@
       val: 'css-class', // → add class "simple-class"
       'state-class': { $: 'class' }, // → add class "state-class" (state.class is true)
       'simple-class': true, //  → add class "simple-class"
-      'other-class': false // → will remove class "other-class" if it's defined'
+      'other-class': false // → will remove class "other-class" if it's defined
     }
   }, state)
 
-  state.class.set(false) // → removes class 'state-class'
-  state.class.set('bla') // → adds class 'bla'
+  state.class.set(false) // → remove class "state-class"
+  state.class.set('bla') // → adds class "bla"
   document.body.appendChild(app)
 ```
 
@@ -52,7 +52,7 @@
     other: {
       class: {
         useKey: true, // property forces use of a key
-        val: 'some-class' // → className 'other some-class'
+        val: 'some-class' // → className "other some-class"
       }
     }
   })
