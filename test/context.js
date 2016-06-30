@@ -88,6 +88,59 @@ test('context - keys as class name', function (t) {
   t.end()
 })
 
+test('context - class subscription with nested properties', function (t) {
+  var node
+  const state = s({
+    thing: {
+      active: true
+    }
+  })
+
+  const elem = {
+    types: {
+      thing: {
+        class: {
+          default: 'hello'
+        }
+      }
+    },
+    thing: {
+      $: 'thing',
+      type: 'thing',
+      class: {
+        $: true,
+        active: {
+          $: 'active',
+          $transform: (val) => val && 'active'
+        }
+      }
+    }
+  }
+
+  node = render(elem, state)
+  t.equals(node.childNodes[0].className, 'hello active', 'init with subs')
+
+  elem.thing.class.button = true
+  node = render(elem, state)
+  t.equals(node.childNodes[0].className, 'hello button active', 'add new static property')
+
+  // this causes error
+  // state.thing.set({testing: 'testing'})
+  // elem.thing.class.test2 = {
+  //   default: 'test2',
+  //   test3: { $: 'testing' }
+  // }
+  // node = render(elem, state)
+  // t.equals(node.childNodes[0].className, 'hello button active testing', 'add new nested property with subs')
+
+  state.thing.set({testing: 'testing'})
+  elem.thing.class.testing = { $: 'testing' }
+  node = render(elem, state)
+  t.equals(node.childNodes[0].className, 'hello button testing active', 'add new subscription')
+
+  t.end()
+})
+
 test('context - remove field on inherited class', function (t) {
   const state = s({})
 
