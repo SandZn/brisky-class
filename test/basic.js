@@ -138,13 +138,6 @@ test('basic - toggle class name', function (t) {
     class: { hello: { $: 'thing' } }
   }, state)
   t.equals(elem.className, 'hello', 'initial class')
-  // state.subscribe({
-  //   thing: {
-  //     val: true
-  //   }
-  // }, () => {
-  //   console.log('fuck?')
-  // })
   state.set({ thing: false })
   state.thing.set(false)
   t.equals(elem.className, void 0, 'set thing to false')
