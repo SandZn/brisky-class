@@ -54,7 +54,7 @@ function parseStore (val, store) {
 function setClassName (val, node) {
   if (val) {
     node.className = val
-  } else if (node.className) {
+  } else if ('className' in node) {
     node.removeAttribute('class')
   }
 }
