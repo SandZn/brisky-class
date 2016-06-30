@@ -124,19 +124,19 @@ test('context - class subscription with nested properties', function (t) {
   node = render(elem, state)
   t.equals(node.childNodes[0].className, 'hello button active', 'add new static property')
 
-  // this causes error
-  // state.thing.set({testing: 'testing'})
-  // elem.thing.class.test2 = {
-  //   default: 'test2',
-  //   test3: { $: 'testing' }
-  // }
-  // node = render(elem, state)
-  // t.equals(node.childNodes[0].className, 'hello button active testing', 'add new nested property with subs')
-
   state.thing.set({testing: 'testing'})
   elem.thing.class.testing = { $: 'testing' }
   node = render(elem, state)
   t.equals(node.childNodes[0].className, 'hello button testing active', 'add new subscription')
+
+  // this causes error
+  // state.thing.set({testing2: 'testing2'})
+  // elem.thing.class.test2 = {
+  //   default: 'test2',
+  //   test3: { $: 'testing2' }
+  // }
+  // node = render(elem, state)
+  // t.equals(node.childNodes[0].className, 'hello button active testing testing2', 'add new nested property with subs')
 
   t.end()
 })
