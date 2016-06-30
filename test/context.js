@@ -103,16 +103,24 @@ test('context - remove field on inherited class', function (t) {
       }
     },
     elem1: { type: 'elem' },
-    elem2: { type: 'elem' }
+    elem2: { type: 'elem', class: { bla: { $: 'bla' } } }
   }, state)
 
   t.equals(elem.childNodes[0].className, 'hello', '1 initial')
   t.equals(elem.childNodes[1].className, 'hello', '2 initial')
+
   state.set({ simpleClass: true })
   t.equals(elem.childNodes[0].className, 'hello thing', '1 after state "true"')
   t.equals(elem.childNodes[1].className, 'hello thing', '2 after state "true"')
+
+  state.set({ bla: true })
+  t.equals(elem.childNodes[1].className, 'hello thing bla', '2 after state "true"')
+
   state.simpleClass.remove()
-  t.equals(elem.childNodes[0].className, 'hello', '1 after removal of state')
-  t.equals(elem.childNodes[1].className, 'hello', '2 after removal of state')
+  t.equals(elem.childNodes[0].className, 'hello', '1 after removal of $root.simpleClass')
+  t.equals(elem.childNodes[1].className, 'hello bla', '2 after removal of $root.simpleClass')
+
+  state.bla.remove()
+  t.equals(elem.childNodes[1].className, 'hello', '2 after removal of $root.bal')
   t.end()
 })
