@@ -28,7 +28,7 @@ exports.properties = {
           val = ''
         }
         const node = getParent(type, stamp, subs, tree, pid)
-        setClassName(parseStore(val, store), node)
+        setClassName(target.keys().length ? parseStore(val, store) : val, node)
       }
     }
   }
