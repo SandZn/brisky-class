@@ -3,6 +3,7 @@ require('brisky-core').prototype.inject(require('../'))
 const s = require('vigour-state/s')
 const test = require('tape')
 const render = require('brisky-core/render')
+const isNode = require('is-node')
 
 test('basic - static class name', function (t) {
   var elem
@@ -28,7 +29,7 @@ test('basic - static class name', function (t) {
     }
   })
 
-  t.equals(elem.className, void 0, 'single field: false')
+  t.same(elem.className, isNode ? void 0 : '', 'single field: false')
 
   elem = render({
     class: {
@@ -140,7 +141,7 @@ test('basic - toggle class name', function (t) {
   t.equals(elem.className, 'hello', 'initial class')
   state.set({ thing: false })
   state.thing.set(false)
-  t.equals(elem.className, void 0, 'set thing to false')
+  t.equals(elem.className, isNode ? void 0 : '', 'set thing to false')
   t.end()
 })
 
