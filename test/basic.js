@@ -5,154 +5,179 @@ const test = require('tape')
 const render = require('brisky-core/render')
 const isNode = require('is-node')
 
-test('basic - static class name', function (t) {
-  var elem
-  t.plan(5)
+// test('basic - static class name', function (t) {
+//   var elem
+//   t.plan(5)
 
-  elem = render({
-    class: 'simple-class'
+//   elem = render({
+//     class: 'simple-class'
+//   })
+
+//   t.equals(elem.className, 'simple-class', 'simple value')
+
+//   elem = render({
+//     class: {
+//       'simple-class': true
+//     }
+//   })
+
+//   t.equals(elem.className, 'simple-class', 'single field: true')
+
+//   elem = render({
+//     class: {
+//       'simple-class': false
+//     }
+//   })
+
+//   t.same(elem.className, isNode ? void 0 : '', 'single field: false')
+
+//   elem = render({
+//     class: {
+//       simpleString: 'simple-string'
+//     }
+//   })
+
+//   t.equals(elem.className, 'simple-string', 'single string')
+
+//   elem = render({
+//     class: {
+//       val: 'simple-value',
+//       'simple-class': true,
+//       'not-this': false,
+//       simpleString: 'simple-string'
+//     }
+//   })
+
+//   t.equals(elem.className, 'simple-value simple-class simple-string', 'mixed')
+// })
+
+// test('basic - state driven class name', function (t) {
+//   var elem
+//   t.plan(4)
+
+//   elem = render({
+//     class: {
+//       $: 'simpleClass'
+//     }
+//   }, {
+//     simpleClass: 'simple-class'
+//   })
+
+//   t.equals(elem.className, 'simple-class', 'class value from state')
+
+//   elem = render({
+//     // note: needs to be nested => state does not support top subs completely
+//     $: 'someData',
+//     class: {
+//       field: {
+//         $: 'simpleClass'
+//       }
+//     }
+//   }, {
+//     someData: {
+//       simpleClass: 'simple-class'
+//     }
+//   })
+
+//   t.equals(elem.className, 'simple-class', 'class field from state')
+
+//   elem = render({
+//     // note: needs to be nested => state does not support top subs completely
+//     $: 'someData',
+//     class: {
+//       val: 'simple-value',
+//       one: {
+//         $: 'simpleClass'
+//       },
+//       field: 'simple-field',
+//       another: {
+//         $: 'anotherClass'
+//       }
+//     }
+//   }, {
+//     someData: {
+//       simpleClass: 'simple-class',
+//       anotherClass: 'another-class'
+//     }
+//   })
+
+//   t.equals(elem.className, 'simple-value simple-field another-class simple-class', 'mixed static with multiple state')
+
+//   elem = render({
+//     $: 'simpleClass',
+//     class: { $: true }
+
+//   }, {
+//     simpleClass: 'simple-class'
+//   })
+
+//   t.equals(elem.className, 'simple-class', 'subscribe with true')
+// })
+
+// test('basic - keys as class name', function (t) {
+//   var elem = render({
+//     key: 'elem',
+//     class: {
+//       $: 'simpleClass'
+//     }
+//   }, {
+//     simpleClass: 'simple-class'
+//   })
+//   t.equals(elem.className, 'simple-class', 'class does not include key by default')
+//   elem = render({
+//     key: 'elem',
+//     class: true
+//   })
+//   t.equals(elem.className, 'elem', 'class does include key when class: true')
+//   t.end()
+// })
+
+// test('basic - toggle class name', function (t) {
+//   const state = s({ thing: true })
+//   const elem = render({
+//     key: 'elem',
+//     class: { hello: { $: 'thing' } }
+//   }, state)
+//   t.equals(elem.className, 'hello', 'initial class')
+//   state.set({ thing: false })
+//   state.thing.set(false)
+//   t.equals(elem.className, isNode ? void 0 : '', 'set thing to false')
+//   t.end()
+// })
+
+// test('basic - use key and nested state', function (t) {
+//   const state = s({ thing: true })
+//   const elem = render({
+//     key: 'elem',
+//     class: { useKey: true, hello: { $: 'thing' } }
+//   }, state)
+//   t.equals(elem.className, 'elem hello', 'initial class')
+//   state.thing.set(false)
+//   t.equals(elem.className, 'elem', 'set thing to false')
+//   t.end()
+// })
+
+test('basic - nested state edge case', function (t) {
+  const state = s({
+    clients: {
+      clients: {
+        menu: false
+      }
+    },
+    client: '$root.clients.client'
   })
-
-  t.equals(elem.className, 'simple-class', 'simple value')
-
-  elem = render({
-    class: {
-      'simple-class': true
-    }
-  })
-
-  t.equals(elem.className, 'simple-class', 'single field: true')
-
-  elem = render({
-    class: {
-      'simple-class': false
-    }
-  })
-
-  t.same(elem.className, isNode ? void 0 : '', 'single field: false')
-
-  elem = render({
-    class: {
-      simpleString: 'simple-string'
-    }
-  })
-
-  t.equals(elem.className, 'simple-string', 'single string')
-
-  elem = render({
-    class: {
-      val: 'simple-value',
-      'simple-class': true,
-      'not-this': false,
-      simpleString: 'simple-string'
-    }
-  })
-
-  t.equals(elem.className, 'simple-value simple-class simple-string', 'mixed')
-})
-
-test('basic - state driven class name', function (t) {
-  var elem
-  t.plan(4)
-
-  elem = render({
-    class: {
-      $: 'simpleClass'
-    }
-  }, {
-    simpleClass: 'simple-class'
-  })
-
-  t.equals(elem.className, 'simple-class', 'class value from state')
-
-  elem = render({
-    // note: needs to be nested => state does not support top subs completely
-    $: 'someData',
-    class: {
-      field: {
-        $: 'simpleClass'
+  const app = render({
+    elem: {
+      class: {
+        val: 'layout-main full-absolute flex-column scroll-y',
+        menu: {
+          $: 'client.menu',
+          $transform: (val, state) => val ? 'menu-open' : val === false ? '' : 'from-menu'
+        }
       }
     }
-  }, {
-    someData: {
-      simpleClass: 'simple-class'
-    }
-  })
-
-  t.equals(elem.className, 'simple-class', 'class field from state')
-
-  elem = render({
-    // note: needs to be nested => state does not support top subs completely
-    $: 'someData',
-    class: {
-      val: 'simple-value',
-      one: {
-        $: 'simpleClass'
-      },
-      field: 'simple-field',
-      another: {
-        $: 'anotherClass'
-      }
-    }
-  }, {
-    someData: {
-      simpleClass: 'simple-class',
-      anotherClass: 'another-class'
-    }
-  })
-
-  t.equals(elem.className, 'simple-value simple-field another-class simple-class', 'mixed static with multiple state')
-
-  elem = render({
-    $: 'simpleClass',
-    class: { $: true }
-
-  }, {
-    simpleClass: 'simple-class'
-  })
-
-  t.equals(elem.className, 'simple-class', 'subscribe with true')
-})
-
-test('basic - keys as class name', function (t) {
-  var elem = render({
-    key: 'elem',
-    class: {
-      $: 'simpleClass'
-    }
-  }, {
-    simpleClass: 'simple-class'
-  })
-  t.equals(elem.className, 'simple-class', 'class does not include key by default')
-  elem = render({
-    key: 'elem',
-    class: true
-  })
-  t.equals(elem.className, 'elem', 'class does include key when class: true')
-  t.end()
-})
-
-test('basic - toggle class name', function (t) {
-  const state = s({ thing: true })
-  const elem = render({
-    key: 'elem',
-    class: { hello: { $: 'thing' } }
   }, state)
-  t.equals(elem.className, 'hello', 'initial class')
-  state.set({ thing: false })
-  state.thing.set(false)
-  t.equals(elem.className, isNode ? void 0 : '', 'set thing to false')
-  t.end()
-})
 
-test('basic - use key and nested state', function (t) {
-  const state = s({ thing: true })
-  const elem = render({
-    key: 'elem',
-    class: { useKey: true, hello: { $: 'thing' } }
-  }, state)
-  t.equals(elem.className, 'elem hello', 'initial class')
-  state.thing.set(false)
-  t.equals(elem.className, 'elem', 'set thing to false')
+  t.equals(app.className, 'elem hello', 'initial class')
   t.end()
 })
