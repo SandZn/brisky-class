@@ -17,8 +17,6 @@ exports.properties = {
         } else if (typeof val === 'object') {
           val = ''
         }
-        console.log('x?', store, val, target.path().join('/'))
-
         setClassName(parseStore(val, store), node)
       },
       state (target, state, type, stamp, subs, tree, id, pid, store) {
