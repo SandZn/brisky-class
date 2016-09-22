@@ -1,0 +1,20 @@
+.active {
+  color: #ff69b4;
+  font-size: 48px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.on {
+  background: green;
+}
+
+.off {
+  background: black;
+}
+
+body {
+  background: url('https://s-media-cache-ak0.pinimg.com/564x/b6/85/e0/b685e062795eeded4b6c324b27abc544.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}

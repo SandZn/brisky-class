@@ -36,9 +36,7 @@ test('context - static class name', function (t) {
 
   const app = render({ types, page1, page2 }, state)
 
-  state.set({
-    page2: true
-  })
+  state.set({ page2: true })
 
   t.same(
     parse(app),
@@ -62,7 +60,6 @@ test('context - static class name', function (t) {
     `),
     'correct inheritance'
   )
-
   t.end()
 })
 

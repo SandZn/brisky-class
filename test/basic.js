@@ -3,6 +3,8 @@ require('brisky-core').prototype.inject(require('../'))
 const s = require('vigour-state/s')
 const test = require('tape')
 const render = require('brisky-core/render')
+const isNode = require('is-node')
+// require('./style.css')
 
 test('basic - static class name', function (t) {
   var elem
@@ -28,7 +30,7 @@ test('basic - static class name', function (t) {
     }
   })
 
-  t.equals(elem.className, void 0, 'single field: false')
+  t.same(elem.className, isNode ? void 0 : '', 'single field: false')
 
   elem = render({
     class: {
@@ -140,7 +142,7 @@ test('basic - toggle class name', function (t) {
   t.equals(elem.className, 'hello', 'initial class')
   state.set({ thing: false })
   state.thing.set(false)
-  t.equals(elem.className, void 0, 'set thing to false')
+  t.equals(elem.className, isNode ? void 0 : '', 'set thing to false')
   t.end()
 })
 
@@ -153,5 +155,39 @@ test('basic - use key and nested state', function (t) {
   t.equals(elem.className, 'elem hello', 'initial class')
   state.thing.set(false)
   t.equals(elem.className, 'elem', 'set thing to false')
+  t.end()
+})
+
+test('basic - nested state edge case', function (t) {
+  const state = s({
+    clients: {
+      client: {
+        menu: false
+      }
+    },
+    client: '$root.clients.client'
+  })
+  const app = render({
+    elem: {
+      text: 'ಠ_ರೃ',
+      class: {
+        val: 'active',
+        menu: {
+          $: 'client.menu',
+          $transform: (val, state) => val === true
+            ? 'on'
+            : (val === false ? '' : 'off')
+        }
+      }
+    }
+  }, state)
+
+  state.clients.client.menu.set(true)
+  t.equals(app.childNodes[0].className, 'active on', 'set menu to "true"')
+  state.clients.client.menu.set('bla')
+  t.equals(app.childNodes[0].className, 'active off', 'set menu to "bla"')
+  state.clients.client.menu.set(false)
+  t.equals(app.childNodes[0].className, 'active ', 'set menu to "false"')
+
   t.end()
 })
