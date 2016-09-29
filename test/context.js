@@ -7,61 +7,6 @@ const s = require('vigour-state/s')
 
 require('brisky-core').prototype.inject(require('../'))
 
-test('context - static class name', function (t) {
-  const state = s({})
-
-  const types = {
-    steps: {
-      class: true,
-      one: { text: 1 },
-      two: { text: 2 },
-      three: { text: 3 }
-    }
-  }
-
-  const page1 = {
-    steps: {
-      type: 'steps',
-      one: { class: 'active' }
-    }
-  }
-
-  const page2 = {
-    $: 'page2',
-    steps: {
-      type: 'steps',
-      two: { class: 'active' }
-    }
-  }
-
-  const app = render({ types, page1, page2 }, state)
-
-  state.set({ page2: true })
-
-  t.same(
-    parse(app),
-    strip(`
-      <div>
-        <div>
-          <div class="steps">
-            <div class="active">1</div>
-            <div>2</div>
-            <div>3</div>
-          </div>
-        </div>
-        <div>
-          <div class="steps">
-          <div>1</div>
-          <div class="active">2</div>
-          <div>3</div>
-          </div>
-        </div>
-      </div>
-    `),
-    'correct inheritance'
-  )
-  t.end()
-})
 
 test('context - keys as class name', function (t) {
   const elem = render({
@@ -69,9 +14,7 @@ test('context - keys as class name', function (t) {
       elem: {
         class: {
           val: true,
-          thing: {
-            $: 'simpleClass'
-          }
+          thing: { $: 'simpleClass' }
         }
       }
     },

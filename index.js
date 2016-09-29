@@ -16,9 +16,9 @@ exports.properties = {
         } else if (typeof val === 'object') {
           val = ''
         }
-        setClassName(parseStore(val, store), node)
+        setClassName(target.keys().length ? parseStore(val, store) : val, node)
       },
-      state (target, s, type, stamp, subs, tree, id, pid, order, store) {
+      state (target, s, type, stamp, subs, tree, id, pid, store) {
         var val = s && target.$ ? target.compute(s) : target.compute()
         if (val === true || target.useKey) {
           const key = parseKey(target, id)
