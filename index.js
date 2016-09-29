@@ -5,9 +5,8 @@ exports.properties = {
   class: {
     type: 'group',
     storeContextKey: true,
-    properties: {
-      useKey: true
-    },
+    subscriptionType: true,
+    properties: { useKey: true },
     render: {
       static (target, node, store) {
         var val = target.compute()
@@ -19,7 +18,7 @@ exports.properties = {
         }
         setClassName(parseStore(val, store), node)
       },
-      state (target, s, type, stamp, subs, tree, id, pid, store) {
+      state (target, s, type, stamp, subs, tree, id, pid, order, store) {
         var val = s && target.$ ? target.compute(s) : target.compute()
         if (val === true || target.useKey) {
           const key = parseKey(target, id)
