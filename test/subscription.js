@@ -3,28 +3,26 @@ require('brisky-core').prototype.inject(require('../'))
 const s = require('vigour-state/s')
 const test = require('tape')
 const render = require('brisky-core/render')
-require('./style.css')
+const strip = require('vigour-util/strip/formatting')
+const parse = require('parse-element')
 
 test('subscription - any + test - class false', function (t) {
   const state = s({
     todos: {
       1: { text: 'hello 1' },
-      2: { text: 'hello 2' }
+      2: { text: 'hello 2', done: true }
     }
   })
 
   const app = render({
-    class: 'simple-class',
     todos: {
-      class: true,
-      tag: 'ul',
+      tag: 'fragment',
       $: 'todos.$any',
       child: {
-        tag: 'li',
         text: { $: 'text' },
         class: {
-          val: 'someclass',
-          striketrough: { $: 'done' },
+          val: 'todo',
+          done: { $: 'done' },
           party: {
             $: 'text.$test',
             $test: {
@@ -32,7 +30,7 @@ test('subscription - any + test - class false', function (t) {
                 return val.compute().indexOf('party') !== -1
               }
             },
-            $transform: val => val || false
+            $type: 'boolean'
           }
         }
       }
@@ -41,7 +39,27 @@ test('subscription - any + test - class false', function (t) {
 
   state.todos[1].set({ text: 'party boys' })
 
-  global.s = state
+  t.same(
+    strip(`
+      <div>
+        <div class="todo party">party boys</div>
+        <div class="todo done">hello 2</div>
+      </div>
+    `),
+    parse(app),
+    'initial subcription'
+  )
 
-  document.body.appendChild(app)
+  state.todos[1].text.set('hello')
+  t.same(
+    strip(`
+      <div>
+        <div class="todo">hello</div>
+        <div class="todo done">hello 2</div>
+      </div>
+    `),
+    parse(app),
+    'initial subcription'
+  )
+  t.end()
 })

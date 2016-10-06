@@ -29,13 +29,11 @@
   ],
   "dependencies": {
     "bubleify": "0.5.1",
-    "brisky-core": "^1.7.5",
-    "postcssify": "^2.5.0"
+    "brisky-core": "^1.7.5"
   },
   "browserify": {
     "transform": [
-      "bubleify",
-      "postcssify"
+      "bubleify"
     ]
   },
   "contributors": [

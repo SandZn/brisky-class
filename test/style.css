@@ -17,17 +17,18 @@ body {
   background-color: #eee;
 }
 
-.todos {
-  & > * {
-    border-radius: 5px;
-    padding: 10px;
-    font-family: courier;
-    font-size: 28px;
-  }
+.todo {
+  color: #ccc;
+  text-shadow: 1px 1px 0px #bbb;
+  border-radius: 5px;
+  padding: 10px;
+  font-family: courier;
+  font-size: 28px;
+  margin-bottom: 15px;
 }
 
-.striketrough {
-  border: 1px solid red;
+.done {
+  box-shadow: 0px 0px 3px #bbb;
 }
 
 .party {
