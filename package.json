@@ -29,7 +29,7 @@
   ],
   "dependencies": {
     "bubleify": "0.5.1",
-    "brisky-core": "^1.7.5"
+    "brisky-core": "^1.8.3"
   },
   "browserify": {
     "transform": [
