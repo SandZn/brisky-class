@@ -14,6 +14,23 @@
 }
 
 body {
+  background-color: #eee;
+}
+
+.todos {
+  & > * {
+    border-radius: 5px;
+    padding: 10px;
+    font-family: courier;
+    font-size: 28px;
+  }
+}
+
+.striketrough {
+  border: 1px solid red;
+}
+
+.party {
   background: url('https://s-media-cache-ak0.pinimg.com/564x/b6/85/e0/b685e062795eeded4b6c324b27abc544.jpg');
   background-size: cover;
   background-repeat: no-repeat;

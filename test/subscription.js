@@ -16,6 +16,7 @@ test('subscription - any + test - class false', function (t) {
   const app = render({
     class: 'simple-class',
     todos: {
+      class: true,
       tag: 'ul',
       $: 'todos.$any',
       child: {
@@ -23,13 +24,24 @@ test('subscription - any + test - class false', function (t) {
         text: { $: 'text' },
         class: {
           val: 'someclass',
-          party: { $: 'party' }
-          // test
+          striketrough: { $: 'done' },
+          party: {
+            $: 'text.$test',
+            $test: {
+              val (val) {
+                return val.compute().indexOf('party') !== -1
+              }
+            },
+            $transform: val => val || false
+          }
         }
       }
     }
   }, state)
 
-  document.body.appendChild(app)
+  state.todos[1].set({ text: 'party boys' })
 
+  global.s = state
+
+  document.body.appendChild(app)
 })
